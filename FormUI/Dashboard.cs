@@ -17,9 +17,7 @@ namespace FormUI
         public Dashboard()
         {
             InitializeComponent();
-
-            peopleFoundListbox.DataSource = people;
-            peopleFoundListbox.DisplayMember = "";
+            UpdateBinding();
         }
 
         private void peopleFoundListbox_SelectedIndexChanged(object sender, EventArgs e)
@@ -27,10 +25,18 @@ namespace FormUI
 
         }
 
+        private void UpdateBinding()
+        {
+            peopleFoundListbox.DataSource = people;
+            peopleFoundListbox.DisplayMember = "FullInfo";
+        }
+
         private void searchButton_Click(object sender, EventArgs e)
         {
             DataAccess db = new DataAccess();
             people = db.GetPeople(lastNameText.Text);
+
+            UpdateBinding();
         }
     }
 }

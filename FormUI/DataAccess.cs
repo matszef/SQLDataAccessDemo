@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Dapper;
 
 namespace FormUI
 {
@@ -10,7 +12,11 @@ namespace FormUI
     {
         public List<Person> GetPeople(string lastName)
         {
-            throw new NotImplementedException();
+            using (IDbConnection connection = new System.Data.SqlClient.SqlConnection(Helper.CnnVal("SampleDB")))
+            {
+                var output = connection.Query<Person>($"select * from People where LastName = '{ lastName }'").ToList();
+                return output;
+            }
         }
     }
 }
